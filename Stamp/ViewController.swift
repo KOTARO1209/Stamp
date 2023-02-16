@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
     var imageNameArray: [String] = ["hana", "hoshi", "onpu", "shitumon"]
     var imageIndex: Int = 0
@@ -19,6 +19,12 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info:[UIImagePickerController.InfoKey : Any]){
+        let image = info[.originalImage] as? UIImage
+        imageView.image = image
+        self.dismiss(animated: true, completion: nil)
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -52,6 +58,25 @@ class ViewController: UIViewController {
     @IBAction func selectedFourth() {
         imageIndex = 4
     }
+    
+    @IBAction func back() {
+        self.imageView.removeFromSuperview()
+    }
 
+    @IBAction func selectImage() {
+        let imagePickerController: UIImagePickerController = UIImagePickerController()
+        imagePickerController.sourceType = UIImagePickerController.SourceType.photoLibrary
+        imagePickerController.allowsEditing = true
+        self.present(imagePickerController, animated: true, completion: nil)
+        imagePickerController.delegate = self
+    }
+    
+    @IBAction func selectBackground() {
+        let imagePickerController: UIImagePickerController = UIImagePickerController()
+        imagePickerController.sourceType = UIImagePickerController.SourceType.photoLibrary
+        imagePickerController.delegate = self
+        imagePickerController.allowsEditing = true
+        self.present(imagePickerController, animated: true, completion: nil)
+    }
 }
 
