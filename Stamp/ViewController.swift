@@ -23,7 +23,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info:[UIImagePickerController.InfoKey : Any]){
         let image = info[.originalImage] as? UIImage
-        imageView.image = image
+        haikeiImageView.image = image
         self.dismiss(animated: true, completion: nil)
     }
 
@@ -62,14 +62,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBAction func back() {
         self.imageView.removeFromSuperview()
     }
-
-    @IBAction func selectImage() {
-        let imagePickerController: UIImagePickerController = UIImagePickerController()
-        imagePickerController.sourceType = UIImagePickerController.SourceType.photoLibrary
-        imagePickerController.allowsEditing = true
-        self.present(imagePickerController, animated: true, completion: nil)
-        imagePickerController.delegate = self
-    }
     
     @IBAction func selectBackground() {
         let imagePickerController: UIImagePickerController = UIImagePickerController()
@@ -77,6 +69,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         imagePickerController.delegate = self
         imagePickerController.allowsEditing = true
         self.present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    @IBAction func save() {
+        let rect: CGRect = CGRect(x: 0, y: 0, width: 393, height: 600)
+        UIGraphicsBeginImageContext(rect.size)
+        self.view.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let capture = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        UIImageWriteToSavedPhotosAlbum(capture!, nil, nil, nil)
     }
 }
 
